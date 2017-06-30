@@ -9,6 +9,7 @@ job('auto-refuel-master') {
   }
   triggers {
     githubPullRequest {
+      admin('devastator')
       cron('H/2 * * * *')
     }
   }
