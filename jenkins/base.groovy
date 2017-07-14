@@ -3,14 +3,12 @@ job('auto-refuel-master') {
     git {
       remote {
         github('evilfirefox/refuel2')
-        refspec('*/master')
+        credentials('c6951f44-060d-4c1e-8f26-cfbf3e404d86')
       }
+      branch('*/master')
     }
   }
   triggers {
-    githubPullRequest {
-      admin('devastator')
-      cron('H/2 * * * *')
-    }
+    scm('H/2 * * * *')
   }
 }
