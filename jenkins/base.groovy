@@ -1,9 +1,9 @@
-job('auto-refuel-master') {
+job("${CIA_PROJECT_NAME}") {
   scm {
     git {
       remote {
-        github('evilfirefox/refuel2')
-        credentials('c6951f44-060d-4c1e-8f26-cfbf3e404d86')
+        github("${CIA_REPO_ALIAS}")
+        credentials("${CIA_REPO_CREDENTIALS}")
       }
       branch('*/master')
     }
