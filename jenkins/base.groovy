@@ -1,13 +1,16 @@
 folder("${CIA_PROJECT_NAME}")
 
 job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
+  parameters {
+    stringParam('BLD_BRANCH', 'master', 'branch name to build')
+  }
   scm {
     git {
       remote {
         github("${CIA_REPO_ALIAS}")
         credentials("${CIA_REPO_CREDENTIALS}")
       }
-      branch('*/master')
+      branch('*/${BLD_BRANCH}')
     }
   }
   triggers {
@@ -24,5 +27,5 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
   }
 }
 
-job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy") {
+job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy") {  
 }
