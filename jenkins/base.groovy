@@ -1,4 +1,6 @@
-job("${CIA_PROJECT_NAME}") {
+folder("${CIA_PROJECT_NAME}")
+
+job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
   scm {
     git {
       remote {
@@ -20,4 +22,7 @@ job("${CIA_PROJECT_NAME}") {
   {
      archiveArtifacts('**/*.caf, cd.xml')
   }
+}
+
+job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy") {
 }
