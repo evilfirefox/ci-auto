@@ -2,7 +2,10 @@ folder("${CIA_PROJECT_NAME}")
 
 job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
   parameters {
-    stringParam('BLD_BRANCH', 'master', 'branch name to build')
+    gitParam('BLD_BRANCH') {
+      type("BRANCH_TAG")
+      defaultValue("master")
+    }
   }
   scm {
     git {
@@ -10,11 +13,15 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
         github("${CIA_REPO_ALIAS}")
         credentials("${CIA_REPO_CREDENTIALS}")
       }
-      branch('*/${BLD_BRANCH}')
+      branch('${BLD_BRANCH}')
     }
   }
   triggers {
     scm('H/2 * * * *')
+    upstream(
+      threshold: 'SUCCESS'
+        upstreamProjects: '${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-test'
+    )
   }
   steps {
     shell('composer install')
@@ -27,5 +34,12 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build") {
   }
 }
 
-job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy") {  
+job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-test") {
+  steps
+  {
+    
+  } 
+}
+
+job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy") {
 }
