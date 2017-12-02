@@ -31,7 +31,7 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
       buildSelector {
         upstreamBuild()
       }
-    }
+    }    
 
     shell('ant -file cd.xml decompress-artifact-remotely')
     shell('ant -file cd.xml apply-live-password')
