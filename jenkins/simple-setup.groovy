@@ -31,7 +31,11 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
       buildSelector {
         latestSuccessful(true)
       }
-    }    
+    }
+    
+    shell('tar -xf *.caf')
+    shell('rm -rf *.caf')
+    // shell('bin/console doctrine:migrations:migrate')
 
     publishers {
         publishOverSsh {
@@ -39,10 +43,11 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
                 label('vlkr2-dev-web7')
                 transferSet {
                     sourceFiles('**/*.*')
-                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_DISPLAY_NAME}')
-                    
+                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_NAME}')
+                  execCommand("ln -fs \"${CIA_PROJECT_NAME}" + '/${BUILD_NAME}" latest')
                 }
             }
+          
         }
     }
   }
