@@ -29,13 +29,21 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
   {
     copyArtifacts("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build-master") {      
       buildSelector {
-        upstreamBuild()
+        latestSuccessful(true)
       }
     }    
 
-    shell('ant -file cd.xml decompress-artifact-remotely')
-    shell('ant -file cd.xml apply-live-password')
-    shell('ant -file cd.xml migrate-database')
-    shell('ant -file cd.xml switch-symlinks')
+    publishers {
+        publishOverSsh {
+            server('vlkr2-dev-web7') {
+                label('vlkr2-dev-web7')
+                transferSet {
+                    sourceFiles('**/*.*')
+                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_DISPLAY_NAME}')
+                    
+                }
+            }
+        }
+    }
   }
 }
