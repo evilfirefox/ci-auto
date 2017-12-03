@@ -45,8 +45,8 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
                 label('vlkr2-dev-web7')
                 transferSet {
                     sourceFiles('**/*.*')
-                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_NAME}')
-                    execCommand("ln -fs \"${CIA_PROJECT_NAME}" + '/${BUILD_NAME}"' + " ${CIA_PROJECT_NAME}/latest")
+                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_NUMBER}')
+                    execCommand("rm ${CIA_PROJECT_NAME}/latest" + ' && ln -fs ${BUILD_NUMBER}/' + " ${CIA_PROJECT_NAME}/latest")
                 }
             }
           
