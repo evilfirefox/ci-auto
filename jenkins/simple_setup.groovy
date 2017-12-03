@@ -26,7 +26,7 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build-master") {
 
 job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
   steps
-  {
+  {   
     copyArtifacts("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build-master") {      
       buildSelector {
         latestSuccessful(true)
@@ -34,7 +34,9 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
     }
     
     shell('tar -xf *.caf')
-    shell('rm -rf *.caf')
+    shell('rm -rf *.caf')  
+    
+    // shell('composer install')
     // shell('bin/console doctrine:migrations:migrate')
 
     publishers {
@@ -43,8 +45,8 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
                 label('vlkr2-dev-web7')
                 transferSet {
                     sourceFiles('**/*.*')
-                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_NAME}')
-                  execCommand("ln -fs \"${CIA_PROJECT_NAME}" + '/${BUILD_NAME}" latest')
+                    remoteDirectory("${CIA_PROJECT_NAME}" + '/${BUILD_NUMBER}')
+                    execCommand("rm ${CIA_PROJECT_NAME}/latest" + ' && ln -fs ${BUILD_NUMBER}/' + " ${CIA_PROJECT_NAME}/latest")
                 }
             }
           
