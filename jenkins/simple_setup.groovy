@@ -26,15 +26,7 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build-master") {
 
 job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
   steps
-  {
-    wrappers {
-        configFiles {
-            file('.env') {
-                variable('ENV_FILE')
-            }
-        }
-    }
-    
+  {   
     copyArtifacts("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-build-master") {      
       buildSelector {
         latestSuccessful(true)
@@ -44,7 +36,7 @@ job("${CIA_PROJECT_NAME}/${CIA_PROJECT_NAME}-deploy-master") {
     shell('tar -xf *.caf')
     shell('rm -rf *.caf')  
     
-    shell('composer install')
+    // shell('composer install')
     // shell('bin/console doctrine:migrations:migrate')
 
     publishers {
